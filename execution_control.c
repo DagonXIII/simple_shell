@@ -168,7 +168,6 @@ int fork_and_run(char **av, char *buffer, char *resolved_path)
 			exit(127);
 		}
 	}
-	wait(&status);
 	if (WIFEXITED(status))
 	{
 		exit_status = WEXITSTATUS(status);
@@ -180,3 +179,4 @@ int fork_and_run(char **av, char *buffer, char *resolved_path)
 	return (exit_status);
 }
 
+#include "main.h"
