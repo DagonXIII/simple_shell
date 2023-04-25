@@ -155,15 +155,42 @@ int handle_builtin(char **av, char *buffer, int exit_status)
 			}
 		}
 	}
+	else if (compare_strings(av[0], "setenv") == 0)
+	{
+		if (av[1] == NULL || av[2] == NULL || av[3] != NULL)
+		{
+			fprintf(stderr, "Usage: setenv VARIABLE VALUE\n");
+			return 1;
+		}
+		if (setenv(av[1], av[2], 1) == -1)
+		{
+			fprintf(stderr, "setenv: failed to set %s=%s\n", av[1], av[2]);
+			return 1;
+		}
+	}
+	else if (compare_strings(av[0], "unsetenv") == 0)
+	{
+		if (av[1] == NULL || av[2] != NULL)
+		{
+			fprintf(stderr, "Usage: unsetenv VARIABLE\n");
+			return 1;
+		}
+		if (unsetenv(av[1]) == -1)
+		{
+			fprintf(stderr, "unsetenv: failed to unset %s\n", av[1]);
+			return 1;
+		}
+	}
 	else
 	{
-		return (0);
+		return 0;
 	}
+
 	for (i = 0; av[i]; i++)
 		free(av[i]);
 	free(av);
 	free(buffer);
-	return (1);
+	return 1;
 }
 /**
  * fork_and_run - create child process to execute based on user input
