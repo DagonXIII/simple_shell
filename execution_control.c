@@ -112,30 +112,58 @@ int handle_builtin(char **av, char *buffer, int exit_status)
 	if (compare_strings(av[0], "env") == 0)
 	{
 		print_env();
-		for (i = 0; av[i]; i++)
-			free(av[i]);
-		free(av);
-		free(buffer);
-		return (1);
 	}
 	else if (compare_strings(av[0], "exit") == 0)
 	{
-		for (i = 0; av[i]; i++)
-			free(av[i]);
-		free(av);
-		free(buffer);
-		exit(exit_status);
+	exit(exit_status);
 	}
 	else if (compare_strings(av[0], "cd") == 0)
 	{
-		if (av[1] == NULL)
-			cd(NULL);
+		char *dir = NULL;
+		if (av[1] == NULL || compare_strings(av[1], "~") == 0)
+		{
+			dir = getenv("HOME");
+		}
+		else if (compare_strings(av[1], "-") == 0)
+		{
+			dir = getenv("OLDPWD");
+			printf("%s\n", dir);
+		}
 		else
-			cd(av[1]);
-		return (1);
+		{
+			dir = av[1];
+		}
+		if (dir == NULL)
+		{
+			printf("cd: HOME not set\n");
+		}
+		else if (chdir(dir) == -1)
+		{
+            printf("cd: %s: No such file or directory\n", dir);
+		}
+		else
+		{
+			char cwd[1024];
+			if (getcwd(cwd, sizeof(cwd)) != NULL)
+			{
+				setenv("OLDPWD", getenv("PWD"), 1);
+				setenv("PWD", cwd, 1);
+			}
+			else
+			{
+				printf("cd: Error getting current working directory\n");
+			}
+		}
 	}
 	else
+	{
 		return (0);
+	}
+	for (i = 0; av[i]; i++)
+		free(av[i]);
+	free(av);
+	free(buffer);
+	return (1);
 }
 /**
  * fork_and_run - create child process to execute based on user input

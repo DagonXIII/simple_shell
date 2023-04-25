@@ -51,9 +51,6 @@ void _puts(char *str);
 int _putchar(char c);
 char *set_memory(char *s, char b, unsigned int n);
 
-/* more_advanced_functions */
-
-int cd(char *path);
 
 /* command_separator */
 char *read_input(void);
