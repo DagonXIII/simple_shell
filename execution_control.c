@@ -102,7 +102,7 @@ char *executable_path(char **av, char *PATH, char *copy)
  * handle_builtin - check if first user string is a built-in
  * @av: pointer to array of user of strings
  * @buffer: pointer to user string
- * @exits_tatus: exit status of execve
+ * @exit_status: exit status of execve
  * Return: 1 if user string is equal to env or 0 otherwise
  */
 int handle_builtin(char **av, char *buffer, int exit_status)
