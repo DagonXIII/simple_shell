@@ -126,6 +126,14 @@ int handle_builtin(char **av, char *buffer, int exit_status)
 		free(buffer);
 		exit(exit_status);
 	}
+	else if (compare_strings(av[0], "cd") == 0)
+	{
+		if (av[1] == NULL)
+			cd(NULL);
+		else
+			cd(av[1]);
+		return (1);
+	}
 	else
 		return (0);
 }
