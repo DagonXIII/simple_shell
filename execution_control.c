@@ -126,13 +126,6 @@ int handle_builtin(char **av, char *buffer, int exit_status)
 		free(buffer);
 		exit(exit_status);
 	}
-	else if (av[0] == NULL)
-		return (1);
-	if (compare_strings(av[0], "cd") == 0)
-	{
-		cd(av + 1);
-		return (1);
-	}
 	else
 		return (0);
 }
