@@ -55,5 +55,12 @@ char *set_memory(char *s, char b, unsigned int n);
 
 int cd(char *path);
 
+/* command_separator */
+char *read_input(void);
+char **split_commands(char *);
+int execute_commands(char **);
+int execute_single_command(char *);
+void free_memory(char **);
+
 #endif /* MAIN_H */
 
